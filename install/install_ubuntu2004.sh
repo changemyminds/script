@@ -17,3 +17,8 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 
 # 將目前使用者添加到docker環境內，這邊也可以直接將${USER}進行取代，另如usermod -aG docker darren
 sudo usermod -aG docker ${USER}
+
+# 啟動docker服務
+sudo service docker start
+
+
