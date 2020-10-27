@@ -10,7 +10,7 @@ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/dock
 sudo yum-config-manager --enable docker-ce-nightly
 
 # 安裝docker-ce、docker-ce-cli、containerd.io
-yum install -y docker-ce docker-ce-cli containerd.io
+sudo yum install -y docker-ce docker-ce-cli containerd.io
 
 # 防止docker沒有被新增到群組內(早期版本遇過此問題)
 sudo groupadd docker
@@ -19,4 +19,4 @@ sudo groupadd docker
 sudo usermod -aG docker ${USER}
 
 # 啟動docker
-systemctl start docker
+sudo systemctl start docker
