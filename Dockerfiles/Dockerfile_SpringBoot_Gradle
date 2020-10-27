@@ -1,0 +1,23 @@
+# 從https://hub.docker.com/_/gradle?tab=description上抓取image，並命名為build tag
+FROM gradle:6.6.1-jdk8-hotspot AS Build
+
+# 將目前專案的檔案，複製到目的地/home/gradle/src內，並修改src資料夾的使用者/群組權限更名為gradle
+COPY --chown=gradle:gradle . /home/gradle/src
+
+# 切換到工作目錄
+WORKDIR /home/gradle/src
+
+# 運行Gradle
+RUN gradle build --no-daemon
+
+# 抓取jdk8的jre(運行環境) image
+FROM openjdk:8-jre-slim
+
+# 創建app資料夾
+RUN mkdir /app
+
+# 將build image內，指定的資料夾路徑中的jar檔案命名為spring-boot-application.jar
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
+
+# 為了縮短Tomcat的啟動時間，因此添加java.security.egd的系統屬性指向/dev/urandom作為ENTRYPOINT
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/spring-boot-application.jar"]
