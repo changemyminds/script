@@ -53,7 +53,7 @@ echo "docker run --name $name -d -p $port:3306 -e MYSQL_ROOT_PASSWORD=$password 
 
 docker run --name $name -d -p $port:3306 -e MYSQL_ROOT_PASSWORD=$password mysql:$version
 
-# ----------基本指令如下----------
+# ----------額外補充----------
 # [啟用mysql docker]
 # docker run --name darren-mysql -d -p 3377:3306 -e MYSQL_ROOT_PASSWORD=1234 mysql:5.7
 # --name 容器名稱為darren-mysql
@@ -75,3 +75,8 @@ docker run --name $name -d -p $port:3306 -e MYSQL_ROOT_PASSWORD=$password mysql:
 # docker exec -i -t darren-mysql sh
 # -i, -t同上
 # sh 使用shell進入
+
+# [docker mysql volume預設路徑]
+# 主機預設路徑: /var/lib/docker/volumes/cotainer_id/_data
+# 容器預設路徑: /var/lib/mysql
+# 也可以自訂Volume或者用Mount的方式進行綁定

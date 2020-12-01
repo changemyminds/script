@@ -10,8 +10,8 @@ WORKDIR /home/gradle/src
 # 運行Gradle
 RUN gradle build --no-daemon
 
-# 抓取jdk8的jre(運行環境) image
-FROM openjdk:8-jre-slim
+# 抓取jdk8的運行環境 image
+FROM openjdk:8-jdk-alpine
 
 # 創建app資料夾
 RUN mkdir /app
