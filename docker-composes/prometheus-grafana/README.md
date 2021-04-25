@@ -5,7 +5,7 @@
 ## 安裝
 
 ### 快速啟動
-```
+```sh
 git clone https://github.com/changemyminds/Docker-Usage.git
 
 cd Docker-Usage/docker-composes/prometheus-grafana
@@ -48,7 +48,7 @@ scrape_configs:
 
 使用Docker建立
 
-```sh
+```shell
 docker run \
     --name prometheus -d \
     -p 9090:9090 \
@@ -61,7 +61,7 @@ docker run \
 
 使用Docker建立
 
-```sh
+```shell
 docker run \
     -d --name=grafana \
     -p 3000:3000 \
@@ -98,7 +98,6 @@ services:
       - ${PWD}/grafana-storage:/var/lib/grafana
     environment:
       - TZ=Asia/Taipei  # 設定時區
-	
 ```
 
 ## 操作
@@ -111,10 +110,12 @@ TODO 待補...
 #### 設定Prometheus
 
 1. 點選左方列表 => 齒輪圖示 => Data Source
-![image-20201224143051352](images\image-20201224143051352.png)
+
+![image-20201224143051352](images/image-20201224143051352.png)
 
 2. 選擇prometheus
-![image-20201224143224466](images\image-20201224143224466.png)
+
+![image-20201224143224466](images/image-20201224143224466.png)
 
 3. 填寫表單
 由於這邊是使用docker來建立，因此可以先查詢prometheus內部IP
@@ -127,20 +128,25 @@ TODO 待補...
 ```
 
 將http位址: http://172.17.0.2:9090 填入到表單內
-![image-20201224144402124](images\image-20201224144402124.png)
+
+![image-20201224144402124](images/image-20201224144402124.png)
 
 按下save and test，如果失敗則會報錯誤，成功如下。
-![image-20201224144642959](images\image-20201224144642959.png)
+
+![image-20201224144642959](images/image-20201224144642959.png)
 
 ####  創建Dashboard
 1. 點擊左方的"+"符號，按下Dashboad
-![image-20201224144942268](images\image-20201224144942268.png)
+
+![image-20201224144942268](images/image-20201224144942268.png)
 
 2. 按下Add new panel
-![image-20201224145207977](images\image-20201224145207977.png)
+
+![image-20201224145207977](images/image-20201224145207977.png)
 
 3. 輸入Metrics中的PromQL(prometheus的查詢語句) http_server_requests_seconds_count ，即可查看結果
-![image-20201224145337389](images\image-20201224145337389.png)
+
+![image-20201224145337389](images/image-20201224145337389.png)
 
 **補充**
 如果不知道如何查看prometheus的查詢語句，可以透過springboot內的網址
@@ -149,7 +155,8 @@ http://localhost:8081/actuator/prometheus
 ```
 
 這邊可以查看網址結果
-![image-20201225090006896](images\image-20201225090006896.png)
+
+![image-20201225090006896](images/image-20201225090006896.png)
 
 
 #### Dashboard主題樣式
@@ -172,7 +179,8 @@ https://grafana.com/grafana/dashboards/6756
 這邊使用JVM (Micrometer)進行舉例。
 
 點選Copy ID to Clipboard
-![image-20201225090312565](images\image-20201225090312565.png)
+
+![image-20201225090312565](images/image-20201225090312565.png)
 
 或將網址最後面的 4701進行複製下來
 ```
@@ -181,19 +189,19 @@ https://grafana.com/grafana/dashboards/4701
 
 點選左方的"+"號，並點選Import匯入
 
-![image-20201225090524799](images\image-20201225090524799.png)
+![image-20201225090524799](images/image-20201225090524799.png)
 
 點選右方的Import
 
-![image-20201225090625451](images\image-20201225090625451.png)
+![image-20201225090625451](images/image-20201225090625451.png)
 
 將4701貼上，並按下Load
 
-![image-20201225090710053](images\image-20201225090710053.png)
+![image-20201225090710053](images/image-20201225090710053.png)
 
 Load完成後的畫面，點選Prometheus下拉式選單並點選prometheus，接著點擊Import。
 
-![image-20201225091007048](images\image-20201225090806798.png)
+![image-20201225091007048](images/image-20201225090806798.png)
 
 ### 使用PromQL查詢語句
 TODO 待補...
