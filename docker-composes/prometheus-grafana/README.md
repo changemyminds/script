@@ -6,11 +6,7 @@
 
 ### 快速啟動
 ```sh
-git clone https://github.com/changemyminds/Docker-Usage.git
-
-cd Docker-Usage/docker-composes/prometheus-grafana
-
-./start_prometheus_grafana_deploy.sh
+sudo ./start_prometheus_grafana_deploy.sh
 ```
 
 ### Prometheus 
