@@ -32,6 +32,20 @@ services:
     networks:
       - sonarnet
 
+  jenkins:
+    image: jenkins/jenkins:lts
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker  
+      - jenkins-data/var/jenkins_home
+    environment:
+      - TZ=Asia/Taipei
+    networks:
+      - sonarnet
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+        
 networks:
   sonarnet:
     driver: bridge
@@ -40,4 +54,5 @@ volumes:
   postgresql-data:
   sonarqube-data:
   sonarqube-log:
-
+  jenkins-data:
+    
