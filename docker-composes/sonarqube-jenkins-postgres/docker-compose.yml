@@ -17,12 +17,16 @@ services:
       - sonarnet
 
   sonarqube:
-    image: sonarqube:lts-alpine    
+    image: sonarqube:8.9.2-community
     volumes:
       - sonarqube-data:/var/lib/sonarqube
       - sonarqube-log:/var/lib/logs
     ports:
       - "9000:9000"
+    ulimits:
+      nofile:
+        soft: "65536"
+        hard: "65536"
     depends_on:
       - sonarqube-postgres
     environment:
@@ -31,13 +35,13 @@ services:
       - SONARQUBE_JDBC_PASSWORD=sonar
     networks:
       - sonarnet
-
+        
   jenkins:
     image: jenkins/jenkins:lts
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/bin/docker:/usr/bin/docker  
-      - jenkins-data/var/jenkins_home
+      - /usr/bin/docker:/usr/bin/docker
+      - jenkins-data:/var/jenkins_home
     environment:
       - TZ=Asia/Taipei
     networks:
@@ -45,7 +49,6 @@ services:
     ports:
       - "8080:8080"
       - "50000:50000"
-        
 networks:
   sonarnet:
     driver: bridge
