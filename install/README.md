@@ -1,8 +1,8 @@
-# Docker相關安裝
+## Docker相關安裝
 
-## Docker安裝
+### Docker安裝
 
-### CentOS 7安裝
+#### CentOS 7安裝
 
 ```bash
 # 查看目前的使用者名稱
@@ -17,7 +17,7 @@ chmod +x install_centos7.sh
 #  執行安裝腳本
 sudo ./install_centos7.sh
 ```
-### Ubuntu 安裝
+#### Ubuntu 安裝
 
 ```bash
 # 查看目前的使用者名稱
@@ -33,18 +33,19 @@ chmod +x install_ubuntu2004.sh
 sudo ./install_ubuntu2004.sh
 ```
 
-## Docker Compose安裝
+### Docker Compose安裝
 
-### Linux
+#### Linux
 ```bash
 # 執行安裝腳本
 sudo ./install_linux_docker-compose.sh
 ```
 
-## 其他安裝問題
+### 其他安裝問題
 
-### ZONE_CONFLICT: 'docker0' already bound to a zone
-1. 安裝docker後進行啟動，發現錯誤訊息下
+#### ZONE_CONFLICT: 'docker0' already bound to a zone
+1. 錯誤訊息
+- 安裝docker後進行啟動，發現錯誤訊息下
 ```bash
 $ systemctl status docker
 ● docker.service - Docker Application Container Engine
@@ -65,7 +66,7 @@ Feb 06 13:58:46 centos7-vps-3 systemd[1]: Unit docker.service entered failed sta
 Feb 06 13:58:46 centos7-vps-3 systemd[1]: docker.service failed.
 ```
 
-使用`journalctl -xe`查看詳細誤
+- 使用`journalctl -xe`查看詳細誤
 ```bash
 $ journalctl -xe
 --
