@@ -113,10 +113,46 @@ sudo systemctl restart firewalld
 sudo systemctl restart docker
 ```
 
+#### Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get "http://%2Fvar%2Frun%2Fdocker.sock/v1.24/containers/json": dial unix /var/run/docker.sock: connect: permission denied
+1. 錯誤訊息
+- 使用腳本安裝完後，仍然有下列問題
+```bash
+$ docker ps
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get "http://%2Fvar%2Frun%2Fdocker.sock/v1.24/containers/json": dial unix /var/run/docker.sock: connect: permission denied
+```
 
+- 檢查群組是否有異常
+```bash
+# 將docker加入到群組
+$ sudo groupadd docker
 
+# 將使用者加入到docker群組內
+$ sudo usermod -aG docker ${USER}
 
+# 查看群組，此時opc已經被加入
+$ more /etc/group | grep docker
+docker:x:992:opc
 
+# 但使用docker指令卻顯示需要權限
+docker ps
+```
 
+2. 解決方法
+```bash
+# 查看docker權限，發現群組為root
+$ ls -al /var/run/docker.sock
+srw-rw----. 1 root root 0 Feb  6 14:12 /var/run/docker.sock
+
+# 修改群組為docker 
+$ sudo chown root:docker /var/run/docker.sock
+
+# 再次查看群組
+$ ls -al /var/run/docker.sock
+srw-rw----. 1 root docker 0 Feb  6 14:12 /var/run/docker.sock
+
+# 再次執行指令，運行正常
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
 
 
