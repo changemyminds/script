@@ -1,0 +1,60 @@
+version: '3.2'
+
+services:
+  minio:
+    image: minio/minio:RELEASE.2021-06-14T01-29-23Z
+    container_name: minio
+    volumes:
+      - type: volume
+        source: minio-data
+        target: /data         
+    ports:
+      - "9050:9000"     
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: 12345678
+    command: server /data
+    networks:
+      - persistence-infra
+    restart: always
+
+  postgres:
+    image: postgres:13.2-alpine
+    container_name: postgres  
+    volumes:
+      - type: volume
+        source: postgres-data
+        target: /var/lib/postgresql/data         
+    ports:
+      - "5432:5432"   
+    environment:
+      POSTGRES_PASSWORD: 1234
+      PGDATA: /var/lib/postgresql/data/pgdata
+    networks:
+      - persistence-infra      
+    restart: always  
+
+  redis:
+    image: redis:6.2.4-alpine
+    container_name: redis
+    volumes:
+      - type: volume
+        source: redis-data
+        target: /data
+      - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    ports:
+        - "6379:6379"    
+    networks:
+      - persistence-infra
+    restart: always  
+
+networks:
+  persistence-infra:
+    driver: bridge
+
+volumes:
+  minio-data:
+  postgres-data:
+  redis-data:
+
