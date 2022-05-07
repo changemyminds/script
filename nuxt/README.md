@@ -17,9 +17,8 @@ chmod +x update-docker-image.sh
 ```
 
 ### Start Docker container
-`SPRING_PROFILES_ACTIVE` is `Spring.Profiles.Active` you can change to your env
 ```sh
 docker run -d -it --name=my-container-name \
-    -p 8080:8080 -e "SPRING_PROFILES_ACTIVE=prod" \
+    -p 3001:3000 \
     YOUR_IMAGE_NAME
 ```
