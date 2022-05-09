@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 安裝docker-compose，下載docker compose
-sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-
+sudo curl -SL "https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+ 
 # 查看安裝路徑
 ls -al /usr/local/bin/docker-compose
 
