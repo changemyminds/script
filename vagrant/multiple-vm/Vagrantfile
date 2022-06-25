@@ -1,0 +1,42 @@
+servers=[
+  {
+    :hostname => "node1",     
+    :ip => "192.168.100.101",
+    :box => "bento/ubuntu-20.04",
+    :box_version => "202206.03.0",
+    :ram => 1024,
+    :cpu => 2
+  },
+  {
+    :hostname => "node2",     
+    :ip => "192.168.100.102",
+    :box => "bento/ubuntu-20.04",
+    :box_version => "202206.03.0",
+    :ram => 1024,
+    :cpu => 2
+  },
+  {
+    :hostname => "node3",      
+    :ip => "192.168.100.103",
+    :box => "bento/ubuntu-20.04",
+    :box_version => "202206.03.0",
+    :ram => 1024,
+    :cpu => 2
+  }
+]
+
+Vagrant.configure(2) do |config|
+    servers.each do |machine|
+        config.vm.define machine[:hostname] do |node|
+            node.vm.box = machine[:box]
+            node.vm.box_version = machine[:box_version]
+            node.vm.hostname = machine[:hostname]
+            node.vm.network "private_network", ip: machine[:ip]
+            node.vm.provider "virtualbox" do |vb|
+                vb.name = "cluster-" + machine[:hostname]
+                vb.customize ["modifyvm", :id, "--memory", machine[:ram]]
+                vb.customize ["modifyvm", :id, "--cpus", machine[:cpu]]  
+            end
+        end
+    end
+end
