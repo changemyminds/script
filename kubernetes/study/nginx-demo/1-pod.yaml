@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-app
+  namespace: default
+  labels:
+    app: nginx-app
+spec:
+  containers:
+  - name: nginx-app
+    image: nginx:1.14.2-alpine
+    resources:
+      limits:
+        cpu: 200m
+        memory: 500Mi
+      requests:
+        cpu: 200m
+        memory: 500Mi
+    ports:
+    - containerPort:  80
+  restartPolicy: Always
+
+# 連線問題
+# 1. 想要在VM內，使用3000 port與Pod的80 port進行溝通，如何完成?
+# kubectl port-forward nginx-app nodePort:PodPort
+# kubectl port-forward nginx-app 3000:80
+# 2. 想要讓VM外，也能夠使用3000 port與Pod的80 port進行溝通，如何完成?
+# kubectl port-forward nginx-app --address 0.0.0.0 3000:80
