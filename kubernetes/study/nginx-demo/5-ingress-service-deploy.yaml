@@ -1,0 +1,70 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx-deploy
+  namespace: default
+  labels:
+    app: nginx-deploy
+spec:
+  selector:
+    matchLabels:
+      app: nginx-deploy
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx-deploy
+    spec:
+      containers:
+        - name: my-nginx-app
+          image: nginx:1.14.2-alpine
+          resources:
+            requests:
+              cpu: 200m
+              memory: 500Mi
+            limits:
+              cpu: 200m
+              memory: 500Mi
+          ports:
+            - containerPort: 80
+              name: deploy-port
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nginx-service
+spec:
+  selector:
+    # 選擇上方Deploy的label
+    app: nginx-deploy
+  type: NodePort    
+  ports:
+  - name: service-port
+    protocol: TCP
+    # 可以想像成docker -p port:targetPort
+    # 將Pod的targetPort mapping到service中的cluster port
+    port: 8000    
+    # 對應到為pod上的container port，可以用containerPort或name來完成
+    targetPort: deploy-port
+    # 可以使用vm上的port進行存取
+    nodePort: 30060      
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress   
+spec:
+  rules:
+  - host: 192.168.100.101.nip.io
+    http:
+      paths:
+      # 連線到 http://192.168.100.101.nip.io/nginx 可以查看結果
+      - path: /nginx
+        pathType: Prefix
+        backend:
+          service:
+            name: my-nginx-service
+            port:
+              number: 4000
