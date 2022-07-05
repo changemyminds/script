@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,8 +28,25 @@ spec:
               memory: 500Mi
           ports:
             - containerPort: 80
+              name: deploy-port
       restartPolicy: Always
-
-# 連線問題 (同1-pod.yaml)
-# kubectl port-forward deployment.apps/nginx-deploy 3000:80 
-# kubectl port-forward deployment.apps/nginx-deploy --address 0.0.0.0 3000:80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    # 選擇上方Deploy的label
+    app: nginx-deploy
+  type: NodePort    
+  ports:
+  - name: service-port
+    protocol: TCP
+    # 可以想像成docker -p port:targetPort
+    # 將Pod的targetPort mapping到service中的cluster port
+    port: 8000    
+    # 對應到為pod上的container port，可以用containerPort或name來完成
+    targetPort: deploy-port
+    # 可以使用vm上的port進行存取
+    nodePort: 30060      

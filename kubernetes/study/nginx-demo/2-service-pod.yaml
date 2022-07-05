@@ -39,7 +39,7 @@ spec:
     # 可以想像成docker -p port:targetPort
     # 將Pod的targetPort mapping到service中的cluster port
     port: 8000    
-    # 對應到為pod上的container port，可以用80或pod-port來完成
+    # 對應到為pod上的container port，可以用containerPort或name來完成
     targetPort: pod-port
     # 可以使用vm上的port進行存取
     nodePort: 30060
