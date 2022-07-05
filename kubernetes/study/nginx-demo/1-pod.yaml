@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nginx-app
+  name: my-nginx-app
   namespace: default
   labels:
     app: nginx-app
@@ -22,7 +22,7 @@ spec:
 
 # 連線問題
 # 1. 想要在VM內，使用3000 port與Pod的80 port進行溝通，如何完成?
-# kubectl port-forward nginx-app nodePort:PodPort
-# kubectl port-forward nginx-app 3000:80
+# kubectl port-forward my-nginx-app nodePort:PodPort
+# kubectl port-forward my-nginx-app 3000:80
 # 2. 想要讓VM外，也能夠使用3000 port與Pod的80 port進行溝通，如何完成?
-# kubectl port-forward nginx-app --address 0.0.0.0 3000:80
+# kubectl port-forward my-nginx-app --address 0.0.0.0 3000:80

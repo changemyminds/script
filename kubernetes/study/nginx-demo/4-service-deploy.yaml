@@ -2,22 +2,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deploy
+  name: my-nginx-deploy
   namespace: default
   labels:
     app: nginx-deploy
 spec:
   selector:
     matchLabels:
-      app: nginx-app
+      app: nginx-deploy
   replicas: 1
   template:
     metadata:
       labels:
-        app: nginx-app
+        app: nginx-deploy
     spec:
       containers:
-        - name: nginx-app
+        - name: my-nginx-app
           image: nginx:1.14.2-alpine
           resources:
             requests:
@@ -34,7 +34,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
+  name: my-nginx-service
 spec:
   selector:
     # 選擇上方Deploy的label
@@ -50,3 +50,9 @@ spec:
     targetPort: deploy-port
     # 可以使用vm上的port進行存取
     nodePort: 30060      
+  
+# 連線存取 (同2-service-pod.yaml)
+# 1. 透過Cluster IP:8000進行存取Pod的資訊，例如下面範例
+# curl 10.43.233.216:8000
+# 2. 外部想要VM內的Pod，透過30060來進行存取
+# curl 192.168.100.101:30060    

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nginx-app
+  name: my-nginx-app
   namespace: default
   labels:
     app: nginx-app
@@ -21,13 +21,11 @@ spec:
           # must be no more than 15 characters
           name: pod-port
   restartPolicy: Always
-
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
+  name: my-nginx-service
 spec:
   selector:
     # 選擇上方Pod的label

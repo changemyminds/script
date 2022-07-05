@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deploy
+  name: my-nginx-deploy
   namespace: default
   labels:
     app: nginx-deploy
 spec:
   selector:
     matchLabels:
-      app: nginx-app
+      app: nginx-deploy
   replicas: 1
   template:
     metadata:
       labels:
-        app: nginx-app
+        app: nginx-deploy
     spec:
       containers:
-        - name: nginx-app
+        - name: my-nginx-app
           image: nginx:1.14.2-alpine
           resources:
             requests:
@@ -30,5 +30,5 @@ spec:
       restartPolicy: Always
 
 # 連線問題 (同1-pod.yaml)
-# kubectl port-forward deployment.apps/nginx-deploy 3000:80 
-# kubectl port-forward deployment.apps/nginx-deploy --address 0.0.0.0 3000:80
+# kubectl port-forward deployment.apps/my-nginx-deploy 3000:80 
+# kubectl port-forward deployment.apps/my-nginx-deploy --address 0.0.0.0 3000:80
