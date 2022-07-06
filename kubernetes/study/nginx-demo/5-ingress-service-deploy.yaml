@@ -10,7 +10,7 @@ spec:
   selector:
     matchLabels:
       app: nginx-deploy
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       labels:
@@ -33,28 +33,32 @@ spec:
 ---
 apiVersion: v1
 kind: Service
-metadata:
-  name: my-nginx-service
+metadata:  
+  # name、namespace名稱必須設定為ingress-nginx，否則無法正確運作
+  name: ingress-nginx
+  namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx  
 spec:
   selector:
-    # 選擇上方Deploy的label
-    app: nginx-deploy
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
   type: NodePort    
   ports:
-  - name: service-port
+  - name: http
     protocol: TCP
-    # 可以想像成docker -p port:targetPort
-    # 將Pod的targetPort mapping到service中的cluster port
-    port: 8000    
-    # 對應到為pod上的container port，可以用containerPort或name來完成
-    targetPort: deploy-port
-    # 可以使用vm上的port進行存取
-    nodePort: 30060      
+    port: 80
+    targetPort: 80
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: 443
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-nginx-service-clusterIP
+  name: my-nginx-service
 spec:
   selector:
     # 選擇上方Deploy的label
@@ -63,18 +67,19 @@ spec:
   ports:
   - name: service-port
     protocol: TCP
-    port: 8001    
+    port: 80
     targetPort: deploy-port     
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nginx-ingress   
+  name: ingress-http
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /  
 spec:
   rules:
-  - host: test.nginx.com
+  # curl 192.168.100.101.nip.io/v1
+  - host: 192.168.100.101.nip.io
     http:
       paths:       
       - path: /v1
