@@ -1,6 +1,6 @@
-# load Vagrantfile.global global paramter
-global_defaults_vagrantfile = './../Vagrantfile.global'
-load global_defaults_vagrantfile if File.exists?(global_defaults_vagrantfile)
+# load global paramter from global.Vagrantfile
+global_vagrantfile = './../global.Vagrantfile'
+load global_vagrantfile if File.exists?(global_vagrantfile)
 
 $install_docker_rancher_script = <<-SHELL
   export WORK_DIR=/home/vagrant
