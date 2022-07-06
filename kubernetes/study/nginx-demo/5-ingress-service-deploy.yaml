@@ -85,7 +85,22 @@ spec:
         pathType: Prefix
         backend:
           service:
+            # 對應Service的my-nginx-service
             name: my-nginx-service
             port:
               # 對應到my-nginx-service中的8000 port
+              number: 8000                            
+  # curl test.hello.com/v2 
+  # 需要設定hosts內的domain進行對應，否則不會正常運作。設定windows/linux的hosts參數   
+  # 192.168.100.101 test.hello.com
+  - host: test.hello.com
+    http:
+      paths:
+      - path: /v2
+        pathType: Prefix
+        backend:
+          service:
+            name: my-nginx-service
+            port:
               number: 8000
+    
