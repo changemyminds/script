@@ -1,0 +1,65 @@
+# load Vagrantfile.global global paramter
+global_defaults_vagrantfile = './../Vagrantfile.global'
+load global_defaults_vagrantfile if File.exists?(global_defaults_vagrantfile)
+
+$install_docker_rancher_script = <<-SHELL
+  export WORK_DIR=/home/vagrant
+   
+  # https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-5-14/
+  docker run -d --privileged --restart=unless-stopped --name=rancher -p 10080:80 -p 10443:443 -v ${WORK_DIR}/rancher:/var/lib/rancher rancher/rancher:v2.5.14
+SHELL
+
+servers=[
+  {
+    :hostname => "node1",     
+    :ip => "192.168.100.101",
+    :box => "bento/ubuntu-20.04",
+    :box_version => "202206.03.0",
+    :ram => 4096,
+    :cpu => 2,
+    :scripts => [$global_install_docker_script, $install_docker_rancher_script, $global_install_kubectl_script]
+  },
+  # {
+  #   :hostname => "node2",     
+  #   :ip => "192.168.100.102",
+  #   :box => "bento/ubuntu-20.04",
+  #   :box_version => "202206.03.0",
+  #   :ram => 2048,
+  #   :cpu => 2,
+  #   :scripts => [$global_install_docker_script]
+  # },
+  # {
+  #   :hostname => "node3",      
+  #   :ip => "192.168.100.103",
+  #   :box => "bento/ubuntu-20.04",
+  #   :box_version => "202206.03.0",
+  #   :ram => 1024,
+  #   :cpu => 2,
+  #   :scripts => [$global_install_docker_script]
+  # }
+]
+
+Vagrant.configure(2) do |config|
+    servers.each do |machine|
+        config.vm.define machine[:hostname] do |node|
+            node.vm.box = machine[:box]
+            node.vm.box_version = machine[:box_version]
+            node.vm.hostname = machine[:hostname]
+            node.vm.network "private_network", ip: machine[:ip]
+            
+            # do script
+            if machine[:scripts] 
+                machine[:scripts].each do |script| 
+                    node.vm.provision "shell", inline: script
+                end
+            end
+
+            node.vm.provider "virtualbox" do |vb|
+                vb.name = "K8s-#{machine[:hostname]}"
+                vb.customize ["modifyvm", :id, "--memory", machine[:ram]]
+                vb.customize ["modifyvm", :id, "--cpus", machine[:cpu]]  
+            end
+        end
+    end
+end
+
