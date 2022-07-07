@@ -1,0 +1,36 @@
+install_script_path=File.expand_path('../../install-scripts', File.dirname(__FILE__))
+
+servers=[{
+    :hostname => "minikube",     
+    :ip => "192.168.100.101",
+    :box => "bento/ubuntu-20.04",
+    :box_version => "202206.03.0",
+    :ram => 4096,
+    :cpu => 2,
+    :scripts => ["install_docker.sh", "install_minikube.sh", "install_kubectl.sh"]
+}]
+
+Vagrant.configure(2) do |config|
+    servers.each do |machine|
+        config.vm.define machine[:hostname] do |node|
+            node.vm.box = machine[:box]
+            node.vm.box_version = machine[:box_version]
+            node.vm.hostname = machine[:hostname]
+            node.vm.network "private_network", ip: machine[:ip]
+            
+            # do script
+            if machine[:scripts] 
+                machine[:scripts].each do |script| 
+                  node.vm.provision "shell", privileged: false, path: "#{install_script_path}/#{script}"
+                end
+            end
+
+            node.vm.provider "virtualbox" do |vb|
+                vb.name = "K8s-#{machine[:hostname]}"
+                vb.customize ["modifyvm", :id, "--memory", machine[:ram]]
+                vb.customize ["modifyvm", :id, "--cpus", machine[:cpu]]  
+            end
+        end
+    end
+end
+

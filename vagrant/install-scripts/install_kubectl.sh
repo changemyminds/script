@@ -17,6 +17,8 @@ sudo apt-get update
 sudo apt-get install -y kubectl=${KUBECTL_VERSION}-00
 sudo apt-mark hold kubectl
 
-# avoid -bash: _get_comp_words_by_ref: command not found
-sudo apt-get install -y bash-completion
+# install some package
+# bash-completion -> avoid -bash: _get_comp_words_by_ref: command not found
+# socat -> unable to do port forwarding: socat not found
+sudo apt-get install -y bash-completion socat
 echo 'source <(kubectl completion bash)' >> ~/.bashrc
