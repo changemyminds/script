@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -52,7 +51,3 @@ spec:
     nodePort: 30060      
   
 # 連線存取 (同2-service-pod.yaml)
-# 1. 透過Cluster IP:8000進行存取Pod的資訊，例如下面範例
-# curl 10.43.233.216:8000
-# 2. 外部想要VM內的Pod，透過30060來進行存取
-# curl 192.168.100.101:30060    

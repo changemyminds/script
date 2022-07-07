@@ -1,13 +1,4 @@
-# load global paramter from global.Vagrantfile
-global_vagrantfile = './../global.Vagrantfile'
-load global_vagrantfile if File.exists?(global_vagrantfile)
-
-$install_docker_rancher_script = <<-SHELL
-  export WORK_DIR=/home/vagrant
-   
-  # https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-5-14/
-  docker run -d --privileged --restart=unless-stopped --name=rancher -p 10080:80 -p 10443:443 -v ${WORK_DIR}/rancher:/var/lib/rancher rancher/rancher:v2.5.14
-SHELL
+install_script_path=File.expand_path('../../install-scripts', File.dirname(__FILE__))
 
 servers=[
   {
@@ -17,7 +8,7 @@ servers=[
     :box_version => "202206.03.0",
     :ram => 4096,
     :cpu => 2,
-    :scripts => [$global_install_docker_script, $install_docker_rancher_script, $global_install_kubectl_script]
+    :scripts => ["install_docker.sh", "install_docker_rancher.sh", "install_kubectl.sh"]
   },
   # {
   #   :hostname => "node2",     
@@ -26,16 +17,16 @@ servers=[
   #   :box_version => "202206.03.0",
   #   :ram => 2048,
   #   :cpu => 2,
-  #   :scripts => [$global_install_docker_script]
+  #   :scripts => ["install_docker.sh"]
   # },
   # {
   #   :hostname => "node3",      
   #   :ip => "192.168.100.103",
   #   :box => "bento/ubuntu-20.04",
   #   :box_version => "202206.03.0",
-  #   :ram => 1024,
+  #   :ram => 2048,
   #   :cpu => 2,
-  #   :scripts => [$global_install_docker_script]
+  #   :scripts => ["install_docker.sh"]
   # }
 ]
 
@@ -50,7 +41,8 @@ Vagrant.configure(2) do |config|
             # do script
             if machine[:scripts] 
                 machine[:scripts].each do |script| 
-                    node.vm.provision "shell", inline: script
+                    # privileged false -> vagrant, true -> root, default is true
+                    node.vm.provision "shell", privileged: false, path: "#{install_script_path}/#{script}"
                 end
             end
 

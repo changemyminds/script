@@ -43,8 +43,10 @@ spec:
     nodePort: 30060
 
 # 連線存取
-# 1. 透過Cluster IP:8000進行存取Pod的資訊，例如下面範例
-# curl 10.43.40.236:8000
-# 2. 外部想要VM內的Pod，透過30060來進行存取
-# curl 192.168.100.101:30060
-
+# 1. VM內部透過ClusterIP進行存取
+# clusterIP=$(kubectl get svc my-nginx-service -o jsonpath='{.spec.clusterIP}')
+# curl $clusterIP:8000
+# 2. 外部VM透過NodePort進行存取
+# curl 192.168.100.101:30060 
+# 3. 外部VM透過kubectl port-forward進行存取
+# kubectl port-forward service/my-nginx-service --address 0.0.0.0 8000:8000
