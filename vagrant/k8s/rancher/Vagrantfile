@@ -30,28 +30,5 @@ servers=[
   # }
 ]
 
-Vagrant.configure(2) do |config|
-    servers.each do |machine|
-        config.vm.define machine[:hostname] do |node|
-            node.vm.box = machine[:box]
-            node.vm.box_version = machine[:box_version]
-            node.vm.hostname = machine[:hostname]
-            node.vm.network "private_network", ip: machine[:ip]
-            
-            # do script
-            if machine[:scripts] 
-                machine[:scripts].each do |script| 
-                    # privileged false -> vagrant, true -> root, default is true
-                    node.vm.provision "shell", privileged: false, path: "#{install_script_path}/#{script}"
-                end
-            end
-
-            node.vm.provider "virtualbox" do |vb|
-                vb.name = "K8s-#{machine[:hostname]}"
-                vb.customize ["modifyvm", :id, "--memory", machine[:ram]]
-                vb.customize ["modifyvm", :id, "--cpus", machine[:cpu]]  
-            end
-        end
-    end
-end
-
+# call Vagrantfile template
+eval File.read("./../template/Vagrantfile")

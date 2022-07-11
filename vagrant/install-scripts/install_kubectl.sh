@@ -21,4 +21,8 @@ sudo apt-mark hold kubectl
 # bash-completion -> avoid -bash: _get_comp_words_by_ref: command not found
 # socat -> unable to do port forwarding: socat not found
 sudo apt-get install -y bash-completion socat
+ 
+# kubectl cheat sheet, see https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 echo 'source <(kubectl completion bash)' >> ~/.bashrc
+alias k=kubectl
+complete -o default -F __start_kubectl k

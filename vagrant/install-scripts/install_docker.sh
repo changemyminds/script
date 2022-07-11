@@ -1,7 +1,7 @@
 #!/bin/bash -eux
 
 # set version
-export DOCKER_VERSION=5:20.10.17~3-0~ubuntu-focal
+export DOCKER_VERSION=5:19.03.15~3-0~ubuntu-focal
 export CONTAINERD_IO_VERSION=1.6.6-1
 
 # if apt-get update failed use this
