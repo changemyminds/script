@@ -1,6 +1,6 @@
 servers=[
   {
-    :hostname => "node1",     
+    :hostname => "rancher-node1",     
     :ip => "192.168.100.101",
     :box => "bento/ubuntu-20.04",
     :box_version => "202206.03.0",
@@ -9,7 +9,7 @@ servers=[
     :scripts => ["install_docker.sh", "install_docker_rancher.sh", "install_kubectl.sh"]
   },
   # {
-  #   :hostname => "node2",     
+  #   :hostname => "rancher-node2",     
   #   :ip => "192.168.100.102",
   #   :box => "bento/ubuntu-20.04",
   #   :box_version => "202206.03.0",
@@ -18,7 +18,7 @@ servers=[
   #   :scripts => ["install_docker.sh"]
   # },
   # {
-  #   :hostname => "node3",      
+  #   :hostname => "rancher-node3",      
   #   :ip => "192.168.100.103",
   #   :box => "bento/ubuntu-20.04",
   #   :box_version => "202206.03.0",

@@ -1,6 +1,6 @@
 servers=[
   {
-    :hostname => "node1",     
+    :hostname => "docker",     
     :ip => "192.168.100.101",
     :box => "bento/ubuntu-20.04",
     :box_version => "202206.03.0",
