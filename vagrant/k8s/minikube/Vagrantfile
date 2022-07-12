@@ -1,5 +1,3 @@
-install_script_path=File.expand_path('../../install-scripts', File.dirname(__FILE__))
-
 servers=[{
     :hostname => "minikube",     
     :ip => "192.168.100.101",
