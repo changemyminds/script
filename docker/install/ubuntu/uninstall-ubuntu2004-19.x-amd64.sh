@@ -1,4 +1,4 @@
-#!/bin/bash -eux
+#!/bin/bash
 
 export DOCKER_VERSION=5:19.03.15~3-0~ubuntu-focal
 export CONTAINERD_IO_VERSION=1.6.6-1
