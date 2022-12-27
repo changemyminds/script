@@ -5,7 +5,7 @@ servers=[{
     :box_version => "202206.03.0",
     :ram => 4096,
     :cpu => 2,
-    :scripts => ["install_docker.sh", "install_kubectl.sh", "insall_kubeadm.sh"]
+    :scripts => ["install_docker.sh", "install_kubectl.sh", "install_kubeadm.sh"]
 }]
  
 # call Vagrantfile template
