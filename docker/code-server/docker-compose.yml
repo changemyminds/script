@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  code-server:
+    build:
+      context: conf/    
+    restart: unless-stopped
+    volumes:
+      - ./projects:/home/coder/projects
+      - ./conf/settings.json:/home/coder/.local/share/code-server/User/settings.json
+    environment:
+      - PASSWORD=${PASSWORD}
+    ports:
+      - 8088:8080
