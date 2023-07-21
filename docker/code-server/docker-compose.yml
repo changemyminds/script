@@ -7,7 +7,10 @@ services:
     volumes:
       - ./projects:/home/coder/projects
       - ./conf/settings.json:/home/coder/.local/share/code-server/User/settings.json
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - PASSWORD=${PASSWORD}
     ports:
       - 8088:8080
+      - 24678:24678
+

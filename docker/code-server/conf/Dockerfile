@@ -1,8 +1,22 @@
 FROM codercom/code-server:latest
 
+USER root
+
 # install apt-get packages
 RUN sudo apt-get update \
-    && sudo apt-get install -y curl git zsh make binutils bison build-essential gcc
+    && sudo apt-get install -y curl git zsh make binutils bison build-essential gcc \
+    apt-transport-https ca-certificates curl gnupg lsb-release
+
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key --keyring /etc/apt/trusted.gpg.d/docker.gpg add -
+
+RUN echo \
+  "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/docker.gpg] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+RUN apt-get update && \
+    apt-get install -y docker-ce-cli
+
+USER coder
 
 # install nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
@@ -31,7 +45,10 @@ RUN code-server --install-extension golang.Go \
     && code-server --install-extension esbenp.prettier-vscode \
     && code-server --install-extension dbaeumer.vscode-eslint \
     && code-server --install-extension yzhang.markdown-all-in-one \
-    && code-server --install-extension DavidAnson.vscode-markdownlint
+    && code-server --install-extension DavidAnson.vscode-markdownlint \
+    && code-server --install-extension humao.rest-client \
+    && code-server --install-extension GitHub.github-vscode-theme \
+    && code-server --install-extension bradlc.vscode-tailwindcss
 
 # set zsh to the default shell
 RUN sudo chsh -s $(which zsh)

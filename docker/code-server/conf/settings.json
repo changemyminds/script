@@ -1,5 +1,5 @@
 {
-  "workbench.colorTheme": "Default Dark Modern",
+  "workbench.colorTheme": "GitHub Dark",
   "terminal.integrated.shell.linux": "/usr/bin/zsh",
   "go.alternateTools": {
     "go": "/home/coder/.gvm/gos/go1.20.5/bin/go"
@@ -11,7 +11,7 @@
   },
   "[vue]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "Vue.volar"
   },
   "[css]": {
     "editor.formatOnSave": true,
@@ -25,5 +25,10 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "prettier.disableLanguages": []
+  "prettier.disableLanguages": [],
+  "workbench.iconTheme": "vscode-icons",
+  "go.toolsManagement.autoUpdate": true,
+  "[go]": {
+    "editor.defaultFormatter": "golang.go"
+  }
 }
