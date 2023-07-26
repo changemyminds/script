@@ -1,6 +1,7 @@
 {
-  "workbench.colorTheme": "GitHub Dark",
-  "terminal.integrated.shell.linux": "/usr/bin/zsh",
+  "workbench.colorTheme": "GitHub Dark",   
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  "terminal.integrated.fontFamily": "MesloLGS NF Regular",
   "go.alternateTools": {
     "go": "/home/coder/.gvm/gos/go1.20.5/bin/go"
   },

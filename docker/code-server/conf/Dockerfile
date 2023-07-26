@@ -22,7 +22,7 @@ USER coder
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
     && echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc \
     && echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.zshrc \
-    && bash -c "source ~/.zshrc && nvm install 18.16.1 && nvm alias default 18.16.1"
+    && bash -c "source ~/.zshrc && nvm install 18.16.1 && nvm alias default 18.16.1 && npm install -g commitizen cz-conventional-changelog cz-customizable && echo '{ \"path\": \"cz-customizable\" }' >> ~/.czrc"
 
 # install gvm
 RUN bash -c "bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)" \
